@@ -1,19 +1,17 @@
 {% load static %}
-
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.css.map' %}">
-    {% block head %}
-    {% endblock %}
+    <title>Toto-list</title>
+    {% block head %}{% endblock %}
 </head>
-<body>
+<body style="background-color: rgb(250, 250, 250);">
 {% block content %}
 {% endblock %}
 </body>

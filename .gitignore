@@ -1,1 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
+.idea/.gitignore 제거할 예정
+.idea/Todolist_python.iml 제거할 예정
+.idea/inspectionProfiles/ 제거할 예정
+.idea/misc.xml 제거할 예정
+.idea/modules.xml 제거할 예정
+.idea/vcs.xml 제거할 예정
+.python-version 제거할 예정
+requirements.txt 제거할 예정
+venv/ 제거할 예정

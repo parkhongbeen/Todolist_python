@@ -1,4 +1,108 @@
-{%block content %}
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrapper">
+    <header class="header">
+        <div class="logo-container" style="margin-bottom: 30px;">
+            <nav class="navbar navbar-expand navbar-dark bg-dark">
+                <a class="navbar-brand">To Do List</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="content">
+            <div class="content">
+                <div class="row row-cols-1 row-cols-md-3 show-all">
+                    {% for todo in todo_list %}
+                    <div class="col mb-4">
+                        <div class="card mb-2" style="border-color: #7FB3FA;">
+                            <div class="card-header bg-transparent">post.context!</div>
+                            <div class="card-body">
+                                <p class="card-text"> {{ todo.text }} </p>
+                            </div>
+                            <div class="card-footer bg-transparent" style="display: flex; justify-content: center;">
+                                <form action="{% url 'main:delete-todo' pk=todo.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <a style="font-size: 3px;">{{ todo.created }}</a>
+                                    <button type="submit" class="btn btn-sm mr-1 ml-3"
+                                            style="color: #fff; background-color: #7FB3FA; border: #7FB3FA; float:right;">
+                                        삭제
+                                    </button>
+                                </form>
+                                <form action="{% url 'main:update-todo' pk=todo.pk %}" method="get">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm mr-1"
+                                            style="color: #fff; background-color: #7FB3FA; border: #7FB3FA; float:right;">
+                                        수정
+                                    </button>
+                                </form>
+                                <form action="" method="GET">
+                                    <button type="submit" class="btn btn-sm mr-1"
+                                            style="color: #fff; background-color: #7FB3FA; border: #7FB3FA; float:right;">
+                                        했다!
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card mb-2" style="border-color: #FFB6C1;">
+                            <div class="card-header bg-transparent">post.context!</div>
+                            <div class="card-body">
+                                <p class="card-text"> {{ post.more_information }}</p>
+                            </div>
+                            <div class="card-footer bg-transparent" style="display: flex; justify-content: center;">
+                                <a style="font-size: 3px;">{{ todo.created }}</a>
+
+                                <form action="{% url 'main:delete-todo' pk=todo.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm mr-1"
+                                            style="color: #fff; background-color: #7FB3FA; border: #7FB3FA; float:right;">
+                                        삭제
+                                    </button>
+                                </form>
+
+                                <form action="{% url 'main:update-todo' pk=todo.pk %}" method="get">
+                                    <button type="submit" class="btn btn-sm mr-1"
+                                            style="color: #fff; background-color: #7FB3FA; border: #7FB3FA; float:right;">
+                                        수정
+                                    </button>
+                                </form>
+
+                                <form action="" method="GET">
+                                    <button type="submit" class="btn btn-sm mr-1"
+                                            style="color: #fff; background-color: #FFB6C1; border: #FFB6C1; float:right;">
+                                        안했다!
+                                    </button>
+                                </form>
 
 
-{%endblock%}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <form action="{% url 'main:add-todo' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="card" style="border-color: #7FB3FA">
+                        <div class="card-header bg-transparent">
+                            <textarea name="context" id="" cols="30" rows="1" class="form-control"
+                                      placeholder="To Do를 입력하세요!"></textarea>
+                        </div>
+                        <div class="card-body">
+                            <textarea name="more_information" id="" cols="30" rows="3" class="form-control"
+                                      placeholder="상세 설명!"></textarea>
+                        </div>
+                        <div class="card-footer bg-transparent" style="display: flex; justify-content: space-around;">
+                            <input class="form-control" name="date_time" type="time"
+                                   style="margin-right: 10px;">
+                            <button type="submit" class="btn"
+                                    style="width: 80px; float:right; color: #fff; background-color: #7FB3FA; border: #7FB3FA;">
+                                작성
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
