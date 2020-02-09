@@ -1,3 +1,15 @@
 body {
     background-color: red;
 }
+
+.size-title{
+    width:220px;
+    height:30px;
+}
+
+.size-textarea{
+    width:260px;
+    height:150px;
+    overflow:hidden;
+    overflow-wrap:break-word;
+}

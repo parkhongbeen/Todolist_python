@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrapper">
+    <header class="header">
+        <div class="logo-container" style="margin-bottom: 30px;">
+            <nav class="navbar navbar-expand navbar-dark bg-dark">
+                <a href="#" class="navbar-brand">To Do List</a>
+                <dev class="navbar-brand" style="font-size: 1.25rem;">{{ request.user }}님의 할 일 리스트입니다.</dev>
+                <a href="{% url 'main:logout' %}" style="margin-left: 1000px;" class="navbar-brand">로그아웃</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="content">
+            <div class="content">
+                <div class="row row-cols-1 row-cols-md-3 show-all">
+                    {% for todo in todo_list %}
+                    <div class="col mb-4">
+                        <div class="card mb-2" style="border-color: #7FB3FA;">
+                            <div class="card-header bg-transparent">
+                                {{ todo.title }}
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text"> {{ todo.text }} </p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <p style="font-size: 3px; display: flex; justify-content: center;">
+                                    {{ todo.created }}
+                                </p>
+
+                                <form action="{% url 'main:delete-todo' pk=todo.pk %}" method="post">
+                                    {% csrf_token %}
+
+                                    <button type="submit" class="btn btn-sm mr-1"
+                                            style="color: #fff; background-color: #7FB3FA; border: #7FB3FA; float:right;">
+                                        삭제
+                                    </button>
+
+                                </form>
+                                <form action="{% url 'main:update-todo' pk=todo.pk %}" method="get">
+                                    {% csrf_token %}
+
+                                    <button type="submit" class="btn btn-sm mr-1"
+                                            style="color: #fff; background-color: #7FB3FA; border: #7FB3FA; float:right;">
+                                        수정
+                                    </button>
+                                </form>
+                                    {% if todo.success %}
+                                    <form action="{% url 'main:do-not-todo' pk=todo.pk %}" method="POST">
+                                    {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm mr-1 ml-3" style="color: #fff; background-color: #7FB3FA; border: #7FB3FA; float:right;">완료</button>
+                                    </form>
+                                    {% else %}
+                                    <form action="{% url 'main:do-todo' pk=todo.pk %}" method="POST">
+                                    {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm mr-1 ml-3" style="color: #fff; background-color: #FFB6C1; border: #FFB6C1; float:right;" >미완료</button>
+                                    </form>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+            <form action="{% url 'main:add-todo' %}" method="POST">
+                {% csrf_token %}
+                <div class="card" style="border-color: #7FB3FA">
+                    <div class="card-header bg-transparent">
+                            <textarea name="title" id="title" cols="30" rows="1" class="form-control"
+                                      placeholder="할 일 입력해주세요!">{{ todo.title }}</textarea>
+                    </div>
+                    <div class="card-body">
+                            <textarea name="text" id="text" cols="30" rows="5" class="form-control"
+                                      placeholder="상세 설명을 적어주세요!">{{ todo.text }}</textarea>
+                    </div>
+                    <div class="card-footer bg-transparent" style="display: flex; justify-content: space-around;">
+                        <input class="form-control" name="date_time" type="time"
+                               style="margin-right: 10px;">
+                        <button type="submit" class="btn"
+                                style="width: 80px; float:right; color: #fff; background-color: #7FB3FA; border: #7FB3FA;">
+                            작성
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

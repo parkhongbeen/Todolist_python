@@ -3,20 +3,38 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="card text-center p-4">
+    <div class="card text-center p-4" style="border-color:none;">
         <div class="mr-auto ml-auto mt-3
                     col-lg-4
                     col-md-6
                     col-sm-8
                     col-10">
-            <h3>edit-todo</h3>
-            <form action="" method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                    <textarea name="text">{{ todo.text }}</textarea>
+            <h3>Edit-Todo!</h3>
+            <div class="col mb-6">
+                <div class="card mb-2" style="border-color: #7FB3FA;">
+
+                    <div class="card-footer bg-transparent" style="display: flex; justify-content: center;">
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <span>수정할 제목</span>
+                            <div class="card-header bg-transparent">
+                                <input value="{{todo.title}}" name="title" class="card-text size-title">
+                            </div>
+
+                            <span>수정할 내용</span>
+                            <div class="card-body">
+                                <textarea type="text" name="text" class="card-text size-textarea" >{{todo.text}}</textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-sm mr-1 ml-3"
+                                    style="color: #fff; background-color: #7FB3FA; border: #7FB3FA;">
+                                수정
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                <button class="btn btn-primary" type="submit">수정</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
