@@ -18,10 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 
-from main.views import Signup_view
+from main.views import signup_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('main/', include('main.urls')),
-    path('', Signup_view, name='signup'),
+    path('', signup_view, name='signup'),
 ]

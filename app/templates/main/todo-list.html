@@ -5,7 +5,7 @@
     <header class="header">
         <div class="logo-container" style="margin-bottom: 30px;">
             <nav class="navbar navbar-expand navbar-dark bg-dark">
-                <a href="#" class="navbar-brand">To Do List</a>
+                <a href="#" class="navbar-brand">TODOLIST</a>
                 <dev class="navbar-brand" style="font-size: 1.25rem;">{{ request.user }}님의 할 일 리스트입니다.</dev>
                 <a href="{% url 'main:logout' %}" style="margin-left: 1000px;" class="navbar-brand">로그아웃</a>
             </nav>
@@ -46,23 +46,44 @@
                                         수정
                                     </button>
                                 </form>
-                                    {% if todo.success %}
-                                    <form action="{% url 'main:do-not-todo' pk=todo.pk %}" method="POST">
+                                {% if todo.success %}
+                                <form action="{% url 'main:do-not-todo' pk=todo.pk %}" method="POST">
                                     {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm mr-1 ml-3" style="color: #fff; background-color: #7FB3FA; border: #7FB3FA; float:right;">완료</button>
-                                    </form>
-                                    {% else %}
-                                    <form action="{% url 'main:do-todo' pk=todo.pk %}" method="POST">
+                                    <button type="submit" class="btn btn-sm mr-1 ml-3"
+                                            style="color: #fff; background-color: #7FB3FA; border: #7FB3FA; float:right;">
+                                        완료
+                                    </button>
+                                </form>
+                                {% else %}
+                                <form action="{% url 'main:do-todo' pk=todo.pk %}" method="POST">
                                     {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm mr-1 ml-3" style="color: #fff; background-color: #FFB6C1; border: #FFB6C1; float:right;" >미완료</button>
-                                    </form>
-                                    {% endif %}
+                                    <button type="submit" class="btn btn-sm mr-1 ml-3"
+                                            style="color: #fff; background-color: #FFB6C1; border: #FFB6C1; float:right;">
+                                        미완료
+                                    </button>
+                                </form>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
-                {% endfor %}
+                    {% endfor %}
                 </div>
             </div>
+
+            {% for search in search_todo %}
+            <div>
+                <p>{{ search.title }}</p>
+                <p>{{ search.text }}</p>
+            </div>
+            {% endfor %}
+
+            <form action="{% url 'main:search-todo' %}" method="GET">
+                {% csrf_token %}
+                <input type="text" name="search" placeholder="찾으실 todo의 제목 검색해주세요." style="width: 1045px;" value="{{ search }}">
+                <input type="submit" class="btn btn-sm mr-1 ml-3" value="검색"
+                        style="color: #fff; background-color: #FFB6C1; border: #FFB6C1; float:right;">
+            </form>
+
             <form action="{% url 'main:add-todo' %}" method="POST">
                 {% csrf_token %}
                 <div class="card" style="border-color: #7FB3FA">

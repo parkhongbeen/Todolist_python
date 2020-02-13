@@ -5,11 +5,26 @@ from .forms import PostCreateForm, TodoUpdateForm, LoginForm, SignupForm
 
 
 def todo_list(request):
-    todo_list = Todo.objects.all().order_by('-pk')
+    todo = Todo.objects.all().order_by('-pk')
     context = {
-        'todo_list': todo_list
+        'todo_list': todo
     }
-    return render(request, 'main/todolist.html', context)
+    return render(request, 'main/todo-list.html', context)
+
+
+def search_todo(request):
+    queryset = Todo.objects.all()
+    search = request.GET.get('search', '')
+
+    if search:
+        queryset = queryset.filter(title__icontains=search)
+
+        # get 은 데이터 하나를 가지고옴. ex: hello 를 검색창에 치면, 찾은 첫번째 데이터를 가지고옴
+        # filter 는 hello 가 들어간 모든 데이터를 가지고온다
+
+    return render(request, 'main/todo-list.html', {
+        'search_todo': queryset,
+    })
 
 
 def add_todo(request):
@@ -22,18 +37,18 @@ def add_todo(request):
             user=request.user,
         )
         todo.save()
-        return redirect('main:todolist')
+        return redirect('main:todo-list')
     else:
         form = PostCreateForm()
         context = {
             'form': form,
         }
-    return render(request, 'main/todolist.html', context)
+    return render(request, 'main/todo-list.html', context)
 
 
 def delete_todo(reqeust, pk):
     Todo.objects.get(pk=pk).delete()
-    return redirect('main:todolist')
+    return redirect('main:todo-list')
 
 
 def edit_todo(request, pk):
@@ -44,7 +59,7 @@ def edit_todo(request, pk):
         todo.title = title
         todo.text = text
         todo.save()
-        return redirect('main:todolist')
+        return redirect('main:todo-list')
     else:
         form = TodoUpdateForm()
         todo = Todo.objects.get(pk=pk)
@@ -61,7 +76,7 @@ def do_todo(request, pk):
 
     todo.success = True
     todo.save()
-    return redirect('main:todolist')
+    return redirect('main:todo-list')
 
 
 def do_not_todo(request, pk):
@@ -69,7 +84,7 @@ def do_not_todo(request, pk):
 
     todo.success = False
     todo.save()
-    return redirect('main:todolist')
+    return redirect('main:todo-list')
 
 
 def login_view(request):
@@ -77,7 +92,7 @@ def login_view(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             form.login(request)
-            return redirect('main:todolist')
+            return redirect('main:todo-list')
     else:
         form = LoginForm()
 
@@ -87,7 +102,7 @@ def login_view(request):
     return render(request, 'main/login.html', context)
 
 
-def Signup_view(request):
+def signup_view(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
