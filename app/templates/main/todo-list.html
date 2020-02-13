@@ -77,7 +77,7 @@
             </div>
             {% endfor %}
 
-            <form action="{% url 'main:search-todo' %}" method="GET">
+            <form action="{% url 'main:todo-list' %}" method="GET">
                 {% csrf_token %}
                 <input type="text" name="search" placeholder="찾으실 todo의 제목 검색해주세요." style="width: 1045px;" value="{{ search }}">
                 <input type="submit" class="btn btn-sm mr-1 ml-3" value="검색"

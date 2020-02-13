@@ -6,25 +6,16 @@ from .forms import PostCreateForm, TodoUpdateForm, LoginForm, SignupForm
 
 def todo_list(request):
     todo = Todo.objects.all().order_by('-pk')
+    search = request.GET.get('search')
+    if search:
+        queryset = todo.filter(title__icontains=search)
+    else:
+        queryset = todo
+
     context = {
-        'todo_list': todo
+        'todo_list': queryset
     }
     return render(request, 'main/todo-list.html', context)
-
-
-def search_todo(request):
-    queryset = Todo.objects.all()
-    search = request.GET.get('search', '')
-
-    if search:
-        queryset = queryset.filter(title__icontains=search)
-
-        # get 은 데이터 하나를 가지고옴. ex: hello 를 검색창에 치면, 찾은 첫번째 데이터를 가지고옴
-        # filter 는 hello 가 들어간 모든 데이터를 가지고온다
-
-    return render(request, 'main/todo-list.html', {
-        'search_todo': queryset,
-    })
 
 
 def add_todo(request):
@@ -108,7 +99,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return render(request, 'main/login.html')
+            return redirect('main:todo-list')
     else:
         form = SignupForm()
     context = {
