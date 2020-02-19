@@ -12,3 +12,5 @@ class Todo(models.Model):
     title = models.TextField(max_length=50)
     success = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+

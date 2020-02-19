@@ -7,11 +7,13 @@ from .forms import PostCreateForm, TodoUpdateForm, LoginForm, SignupForm
 def todo_list(request):
     todo = Todo.objects.all().order_by('-pk')
     search = request.GET.get('search')
+    completed = request.GET.get('completed')
     if search:
         queryset = todo.filter(title__icontains=search)
     else:
         queryset = todo
-
+    if completed:
+        queryset = todo.filter(status=completed)
     context = {
         'todo_list': queryset
     }
@@ -61,20 +63,14 @@ def edit_todo(request, pk):
         return render(request, 'main/todo_edit.html', context)
 
 
-def do_todo(request, pk):
+def do_or_not_todo(request, pk):
     todo = Todo.objects.get(pk=pk)
-    # user = request.user
-
-    todo.success = True
-    todo.save()
-    return redirect('main:todo-list')
-
-
-def do_not_todo(request, pk):
-    todo = Todo.objects.get(pk=pk)
-
-    todo.success = False
-    todo.save()
+    if todo.status:
+        todo.status = False
+        todo.save()
+    else:
+        todo.status = True
+        todo.save()
     return redirect('main:todo-list')
 
 
